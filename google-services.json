@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672825155603",
+    "project_id": "teachassist-db788",
+    "storage_bucket": "teachassist-db788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672825155603:android:473695edf320b5e1821fe6",
+        "android_client_info": {
+          "package_name": "com.muzi123.myNew"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZsYVX1vZnM9zaf6l2rh1re56ek5AnM8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,352 +1,336 @@
-// import React from "react";
-// import {
-//   View,
-//   Text,
-//   StyleSheet,
-//   TouchableOpacity,
-//   ScrollView,
-//   ImageBackground,
-// } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
-// import {
-//   FontAwesome5,
-//   MaterialIcons,
-//   SimpleLineIcons,
-// } from "@expo/vector-icons";
-
-// const StartScreen = () => {
-//   const navigation = useNavigation();
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.imagecontainer}>
-//         {/* Header */}
-//         <ImageBackground
-//           source={require("../assets/header.jpg")} // Your background image path
-//           style={styles.headerContainer}
-//         >
-//           <Text style={styles.headerText}>Welcome to the App</Text>
-//         </ImageBackground>
-//       </View>
-//       {/* Buttons */}
-//       <ScrollView contentContainerStyle={styles.buttonsContainer}>
-//         {/* Courses Button */}
-//         <ImageBackground
-//           source={require("../assets/course1.jpg")} // Replace with the path to your image
-//           style={[styles.box, styles.coursesBackground]}
-//           imageStyle={{ borderRadius: 20 }}
-//         >
-//           <TouchableOpacity
-//             onPress={() => navigation.navigate("Courses")}
-//             style={styles.innerButton}
-//           >
-//             <FontAwesome5 name="book-reader" size={40} color="#fff" />
-//             <Text style={styles.boxText}>Courses</Text>
-//           </TouchableOpacity>
-//         </ImageBackground>
-
-//         {/* Timetable Button */}
-//         <ImageBackground
-//           source={require("../assets/icon1.jpg")} // Replace with the path to your image
-//           style={[styles.box, styles.timetableBackground]}
-//           imageStyle={{ borderRadius: 20 }}
-//         >
-//           <TouchableOpacity
-//             onPress={() => navigation.navigate("Timetable")}
-//             style={styles.innerButton}
-//           >
-//             <MaterialIcons name="timer" size={40} color="#fff" />
-//             <Text style={styles.boxText}>Timetable</Text>
-//           </TouchableOpacity>
-//         </ImageBackground>
-
-//         {/* Datesheet Button */}
-//         <ImageBackground
-//           source={require("../assets/icon.jpg")} // Replace with the path to your image
-//           style={[styles.box, styles.datesheetBackground]}
-//           imageStyle={{ borderRadius: 20 }}
-//         >
-//           <TouchableOpacity
-//             onPress={() => navigation.navigate("Datesheet")}
-//             style={styles.innerButton}
-//           >
-//             <MaterialIcons name="date-range" size={40} color="#fff" />
-//             <Text style={styles.boxText}>Datesheet</Text>
-//           </TouchableOpacity>
-//         </ImageBackground>
-
-//         {/* Settings Button */}
-//         <ImageBackground
-//           source={require("../assets/setting.jpg")} // Replace with the path to your image
-//           style={[styles.box, styles.settingsBackground]}
-//           imageStyle={{ borderRadius: 20 }}
-//         >
-//           <TouchableOpacity
-//             onPress={() => navigation.navigate("Holiday")}
-//             style={styles.innerButton}
-//           >
-//             <SimpleLineIcons name="umbrella" size={40} color="#fff" />
-//             <Text style={styles.boxText}>Holiday</Text>
-//           </TouchableOpacity>
-//         </ImageBackground>
-//       </ScrollView>
-//     </View>
-//   );
-// };
-
-// export default StartScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#000",
-//   },
-//   headerContainer: {
-//     height: 200,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     borderBottomLeftRadius: 20,
-//     borderBottomRightRadius: 20,
-
-//     elevation: 5,
-//     shadowColor: "#000",
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.3,
-//     shadowRadius: 3,
-//     backgroundColor: "#730130",
-//   },
-//   imagecontainer: {
-//     height: "30%",
-//     borderWidth: 4,
-//     borderColor: "#730130",
-//     borderRadius: 12,
-//     marginTop:20,
-//     margin: 10,
-//     padding: 5,
-//     marginBottom: "8%",
-//   },
-//   headerText: {
-//     fontSize: 30,
-//     fontWeight: "bold",
-//     color: "#fff",
-//     letterSpacing: 2,
-//   },
-//   buttonsContainer: {
-//     flexDirection: "row",
-//     flexWrap: "wrap",
-//     justifyContent: "space-between",
-//     padding: 10,
-//   },
-//   box: {
-//     width: "48%", // Adjust width to occupy half of the available space with some space in between
-//     height: 150,
-//     borderRadius: 20,
-//     elevation: 5,
-//     shadowColor: "#000",
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowOpacity: 0.3,
-//     shadowRadius: 3,
-//     overflow: "hidden",
-//     borderColor: "#730130",
-//     borderWidth: 3,
-//   },
-//   innerButton: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the opacity or color here
-//     width: "100%",
-//     height: "100%",
-//     padding: 10,
-//   },
-//   boxText: {
-//     marginTop: 10,
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     color: "white",
-//     letterSpacing: 2,
-//   },
-//   coursesBackground: {
-//     backgroundColor: "#a8a723",
-//   },
-//   timetableBackground: {
-//     backgroundColor: "#b88228",
-//   },
-//   datesheetBackground: {
-//     backgroundColor: "#03A9F4",
-//   },
-//   settingsBackground: {
-//     backgroundColor: "#cc9d8a",
-//   },
-// });
-
-
-
-
-
-
-import React from "react";
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
-  ImageBackground,
-  Dimensions,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import {
-  FontAwesome5,
-  MaterialIcons,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
+  TouchableOpacity,
+  Image,
+  RefreshControl,
+  Dimensions
+} from 'react-native';
+import { MaterialIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import Services from './component/Services';
 
-const StartScreen = () => {
-  const navigation = useNavigation();
-  const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+
+const StartScreen = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [upcomingClass, setUpcomingClass] = useState(null);
+  const [courseNames, setCourseNames] = useState({});
+
+  const getDayName = (dayNumber) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[dayNumber];
+  };
+
+  const fetchUpcomingClass = async () => {
+    try {
+      const uid = await Services.getUserAuth();
+      const db = getFirestore();
+      
+      // First fetch all courses to get course names
+      const courseCollection = collection(db, "courses");
+      const courseQuery = query(courseCollection, where("Uid", "==", uid));
+      const courseSnapshot = await getDocs(courseQuery);
+      const courseMap = {};
+      courseSnapshot.docs.forEach(doc => {
+        courseMap[doc.id] = doc.data().courseName;
+      });
+      setCourseNames(courseMap);
+
+      // Then fetch notifications as before
+      const timetableCollection = collection(db, "notifications");
+      const q = query(timetableCollection, where("userId", "==", uid));
+      const querySnapshot = await getDocs(q);
+
+      const today = new Date();
+      const currentDay = today.getDay();
+      const currentTime = today.getHours() * 60 + today.getMinutes();
+
+      let nextClass = null;
+      let minTimeDiff = Infinity;
+
+      querySnapshot.docs.forEach(doc => {
+        const notification = doc.data();
+        const [hours, minutes] = notification.time.split(':').map(Number);
+        const classTime = hours * 60 + minutes;
+        
+        if (notification.day === currentDay && classTime > currentTime) {
+          const timeDiff = classTime - currentTime;
+          if (timeDiff < minTimeDiff) {
+            minTimeDiff = timeDiff;
+            nextClass = notification;
+          }
+        } else if (notification.day > currentDay || (notification.day < currentDay)) {
+          const daysUntilClass = notification.day > currentDay 
+            ? notification.day - currentDay 
+            : 7 - currentDay + notification.day;
+          const totalMinutes = daysUntilClass * 24 * 60 + classTime - currentTime;
+          if (totalMinutes < minTimeDiff) {
+            minTimeDiff = totalMinutes;
+            nextClass = notification;
+          }
+        }
+      });
+
+      setUpcomingClass(nextClass);
+    } catch (error) {
+      console.error("Error fetching upcoming class:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUpcomingClass();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchUpcomingClass().then(() => setRefreshing(false));
+  }, []);
+
+  const QuickAccessCard = ({ icon, title, subtitle, onPress, color }) => (
+    <TouchableOpacity 
+      style={[styles.quickAccessCard, { backgroundColor: color }]}
+      onPress={onPress}
+    >
+      {icon}
+      <Text style={styles.quickAccessTitle}>{title}</Text>
+      <Text style={styles.quickAccessSubtitle}>{subtitle}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../assets/header.jpg")}
-        style={styles.headerContainer}
-      >
-        <Text style={styles.headerText}>Welcome to the App</Text>
-      </ImageBackground>
-      <ScrollView contentContainerStyle={styles.buttonsContainer}>
-        <ImageBackground
-          source={require("../assets/course1.jpg")}
-          style={[styles.box, styles.coursesBackground]}
-          imageStyle={{ borderRadius: 20 }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Courses")}
-            style={styles.innerButton}
+    <ScrollView 
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {/* Header Section */}
+      <View style={styles.headerContainer}>
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.welcomeText}>Welcome back!</Text>
+            <Text style={styles.dateText}>
+              {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.profileButton}
+            onPress={() => navigation.navigate('Profile')}
           >
-            <FontAwesome5 name="book-reader" size={40} color="#fff" />
-            <Text style={styles.boxText}>Courses</Text>
+            <Image
+              source={require('../assets/icon.jpg')}
+              style={styles.profileImage}
+            />
           </TouchableOpacity>
-        </ImageBackground>
+        </View>
+      </View>
 
-        <ImageBackground
-          source={require("../assets/icon1.jpg")}
-          style={[styles.box, styles.timetableBackground]}
-          imageStyle={{ borderRadius: 20 }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Timetable")}
-            style={styles.innerButton}
-          >
-            <MaterialIcons name="timer" size={40} color="#fff" />
-            <Text style={styles.boxText}>Timetable</Text>
-          </TouchableOpacity>
-        </ImageBackground>
+      {/* Quick Access Section */}
+      <View style={styles.quickAccessContainer}>
+        <Text style={styles.sectionTitle}>Quick Access</Text>
+        <View style={styles.quickAccessGrid}>
+          <QuickAccessCard
+            icon={<MaterialIcons name="class" size={24} color="#FFF" />}
+            title="Courses"
+            subtitle="View your courses"
+            onPress={() => navigation.navigate('Courses')}
+            color="#4CAF50"
+          />
+          <QuickAccessCard
+            icon={<MaterialIcons name="event" size={24} color="#FFF" />}
+            title="Timetable"
+            subtitle="Check schedule"
+            onPress={() => navigation.navigate('Timetable')}
+            color="#2196F3"
+          />
+        </View>
+      </View>
 
-        <ImageBackground
-          source={require("../assets/icon.jpg")}
-          style={[styles.box, styles.datesheetBackground]}
-          imageStyle={{ borderRadius: 20 }}
-        >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Datesheet")}
-            style={styles.innerButton}
-          >
-            <MaterialIcons name="date-range" size={40} color="#fff" />
-            <Text style={styles.boxText}>Datesheet</Text>
-          </TouchableOpacity>
-        </ImageBackground>
+      {/* Upcoming Events Section */}
+      <View style={styles.eventsContainer}>
+        <Text style={styles.sectionTitle}>Upcoming Class</Text>
+        <View style={styles.eventCard}>
+          {upcomingClass ? (
+            <>
+              <View style={styles.eventHeader}>
+                <Ionicons name="time" size={24} color="#4CAF50" />
+                <Text style={styles.eventDate}>
+                  {getDayName(upcomingClass.day)}
+                </Text>
+              </View>
+              <View style={styles.eventContent}>
+                <Text style={styles.eventTitle}>
+                  {courseNames[upcomingClass.courseId] || "Unknown Course"}
+                </Text>
+                <Text style={styles.eventTime}>
+                  {upcomingClass.time} - {upcomingClass.endTime}
+                </Text>
+              </View>
+            </>
+          ) : (
+            <Text style={styles.noClassText}>No upcoming classes</Text>
+          )}
+        </View>
+      </View>
 
-        <ImageBackground
-          source={require("../assets/setting.jpg")}
-          style={[styles.box, styles.settingsBackground]}
-          imageStyle={{ borderRadius: 20 }}
+      {/* Quick Links */}
+      <View style={styles.quickLinksContainer}>
+        <TouchableOpacity 
+          style={styles.quickLink}
+          onPress={() => navigation.navigate('Datesheet')}
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Holiday")}
-            style={styles.innerButton}
-          >
-            <SimpleLineIcons name="umbrella" size={40} color="#fff" />
-            <Text style={styles.boxText}>Holiday</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-      </ScrollView>
-    </View>
+          <FontAwesome5 name="calendar-alt" size={20} color="#4CAF50" />
+          <Text style={styles.quickLinkText}>Date Sheet</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.quickLink}
+          onPress={() => navigation.navigate('Holiday')}
+        >
+          <FontAwesome5 name="umbrella-beach" size={20} color="#4CAF50" />
+          <Text style={styles.quickLinkText}>Holidays</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
-
-export default StartScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: '#F5F7FA',
   },
   headerContainer: {
-    height: Dimensions.get('window').height * 0.25,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    backgroundColor: "#730130",
+    backgroundColor: '#4CAF50',
+    paddingTop: 60,
+    paddingBottom: 30,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
-  headerText: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
-    letterSpacing: 2,
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  buttonsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    padding: 10,
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFF',
   },
-  box: {
-    width: "100%", // Full width
-    height: Dimensions.get('window').height * 0.2, // Increase height
-    marginBottom: 10,
-    borderRadius: 20,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    overflow: "hidden",
-    borderColor: "#730130",
-    borderWidth: 3,
+  dateText: {
+    fontSize: 14,
+    color: '#FFF',
+    opacity: 0.9,
+    marginTop: 5,
   },
-  innerButton: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    width: "100%",
-    height: "100%",
-    padding: 10,
+  profileButton: {
+    padding: 2,
+    backgroundColor: '#FFF',
+    borderRadius: 27,
   },
-  boxText: {
-    marginTop: 10,
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  quickAccessContainer: {
+    padding: 20,
+  },
+  sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "white",
-    letterSpacing: 2,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 15,
   },
-  coursesBackground: {
-    backgroundColor: "#a8a723",
+  quickAccessGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  timetableBackground: {
-    backgroundColor: "#b88228",
+  quickAccessCard: {
+    width: (width - 50) / 2,
+    padding: 20,
+    borderRadius: 15,
+    elevation: 3,
   },
-  datesheetBackground: {
-    backgroundColor: "#03A9F4",
+  quickAccessTitle: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
-  settingsBackground: {
-    backgroundColor: "#cc9d8a",
+  quickAccessSubtitle: {
+    color: '#FFF',
+    fontSize: 12,
+    opacity: 0.9,
+    marginTop: 5,
   },
+  eventsContainer: {
+    padding: 20,
+  },
+  eventCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 15,
+    padding: 15,
+    elevation: 2,
+  },
+  eventHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  eventDate: {
+    marginLeft: 10,
+    color: '#666',
+  },
+  eventContent: {
+    marginLeft: 34,
+  },
+  eventTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+  },
+  eventTime: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 5,
+  },
+  quickLinksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 20,
+    marginBottom: 20,
+  },
+  quickLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 12,
+    width: (width - 60) / 2,
+    elevation: 2,
+  },
+  quickLinkText: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+  },
+  noClassText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    padding: 20,
+  }
 });
+
+export default StartScreen;

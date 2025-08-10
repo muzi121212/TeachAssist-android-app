@@ -5,14 +5,17 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import React, { useState } from "react";
-import { Darkgreen } from "./component/Color";
+import { Darkgreen, Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary } from "./component/Color";
 import Touchablebutton from "./component/Touchablebutton";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { theme } from './component/Theme';
+import { CustomInput } from './component/CustomInput';
 
 const darkTheme = {
   background: "#1E1E1E",
@@ -28,9 +31,11 @@ const darkTheme = {
 const ForgottonPassword = (props) => {
   const navigation = useNavigation();
   const [email, setEmail] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const forgot = () => {
     const auth = getAuth();
+    setLoading(true);
     sendPasswordResetEmail(auth, email)
       .then(() => {
         // Password reset email sent!
@@ -39,55 +44,54 @@ const ForgottonPassword = (props) => {
       .catch((error) => {
         const errorMessage = error.message;
         alert(errorMessage);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: darkTheme.background }}>
-      <View style={{ flex: 1 }}>
-     
-
-        <View style={{ marginTop: 120, alignItems: "center" }}>
-        <Image
-        source={require('../assets/icon2.png')} // Path to your image file
-        style={{ width: 80, // Set your desired width
-          height: 80, // Set your desired height
-          resizeMode: 'contain', // Optionally, adjust how the image should be resized 
-          marginBottom:80
-          }}
-      />
-          <Text
-            style={{ fontSize: 30, fontWeight: "bold", color: darkTheme.text }}
-          >
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Image
+            source={require('../assets/logo.png')}
+            style={styles.logo}
+          />
+          <Text style={styles.title}>
             Reset Password
+          </Text>
+          <Text style={styles.subtitle}>
+            Enter your email to receive instructions
           </Text>
         </View>
 
-        <Text style={[styles.emailtext, { color: darkTheme.text }]}>Email</Text>
-
-        <View style={styles.textbox}>
-          <TextInput
-            style={[
-              styles.Textinputdesign,
-              {
-                backgroundColor: darkTheme.inputBackground,
-                borderColor: darkTheme.borderColor,
-                color: darkTheme.text,
-              },
-            ]}
-            placeholder="Enter your Email Address"
-            placeholderTextColor={darkTheme.placeholder}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-
-        <Touchablebutton
-          title="Reset Password"
-          buttonStyle={{ backgroundColor: darkTheme.buttonBackground }}
-          textStyle={{ color: darkTheme.buttonText, fontSize: 20 }}
-          onPress={forgot}
+        <CustomInput
+          label="Email Address"
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
         />
+
+        <TouchableOpacity 
+          style={[styles.button, loading && styles.buttonDisabled]}
+          onPress={forgot}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color={theme.colors.text.light} />
+          ) : (
+            <Text style={styles.buttonText}>Reset Password</Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text style={styles.backButtonText}>Back to Login</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -96,19 +100,60 @@ const ForgottonPassword = (props) => {
 export default ForgottonPassword;
 
 const styles = StyleSheet.create({
-  emailtext: {
-    marginLeft: 35,
-    marginTop: 30,
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background
   },
-  textbox: {
-    alignItems: "center",
-    marginTop: 8,
+  content: {
+    flex: 1,
+    padding: theme.spacing.lg,
+    alignItems: 'center'
   },
-  Textinputdesign: {
-    height: 55,
-    borderWidth: 2,
-    width: "90%",
-    borderRadius: 10,
-    padding: 15,
+  header: {
+    alignItems: 'center',
+    marginVertical: theme.spacing.xl * 2
   },
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+    marginBottom: theme.spacing.xl
+  },
+  title: {
+    ...theme.typography.h1,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm
+  },
+  subtitle: {
+    ...theme.typography.body,
+    color: theme.colors.text.secondary,
+    textAlign: 'center',
+    marginBottom: theme.spacing.xl
+  },
+  button: {
+    width: '90%',
+    height: 56,
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing.xl,
+    ...theme.shadows.medium
+  },
+  buttonDisabled: {
+    opacity: 0.7
+  },
+  buttonText: {
+    color: theme.colors.text.light,
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  backButton: {
+    marginTop: theme.spacing.xl
+  },
+  backButtonText: {
+    color: theme.colors.primary,
+    ...theme.typography.body,
+    fontWeight: '500'
+  }
 });

@@ -1,36 +1,20 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  KeyboardAvoidingView,
+import React, { useState } from 'react';
+import { 
+  SafeAreaView, 
+  StyleSheet, 
+  Text, 
+  View, 
+  TouchableOpacity, 
+  Image,
   ScrollView,
-  Image
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import { Darkgreen } from "./component/Color";
-import Touchablebutton from "./component/Touchablebutton";
-import TouchText from "./component/TouchText";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+  KeyboardAvoidingView,
+  ActivityIndicator
+} from 'react-native';
+import { theme } from './component/Theme';
+import { CustomInput } from './component/CustomInput';
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
 import { auth } from "./Firebase";
-import { Entypo } from "@expo/vector-icons";
-
-const darkTheme = {
-  background: "#1E1E1E",
-  text: "#FFFFFF",
-  inputBackground: "#333333",
-  inputBorder: "#555555",
-  buttonBackground: "#317773",
-  buttonText: "#FFFFFF",
-  iconColor: "#FFFFFF",
-};
 
 const Signup = (props) => {
   const [displayName, setName] = useState(null);
@@ -87,162 +71,76 @@ const Signup = (props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: darkTheme.background }}>
-      <KeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView style={{ flex: 1 }}>
-          <View style={{ flex: 1 }}>
-            <View style={{ marginTop: 40, alignItems: "center" }}>
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView style={styles.content} behavior="padding">
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.header}>
             <Image
-            source={require('../assets/icon2.png')} // Path to your image file
-            style={{ width: 80, // Set your desired width
-              height: 80, // Set your desired height
-              resizeMode: 'contain', // Optionally, adjust how the image should be resized 
-              marginBottom:30
-              }}
-          />
-              <Text style={[styles.registerText, { color: darkTheme.text }]}>
-                Register
-              </Text>
-            </View>
+              source={require('../assets/logo.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.title}>Create Account</Text>
+            <Text style={styles.subtitle}>Sign up to get started</Text>
+          </View>
 
-            <Text style={[styles.emailtext, { color: darkTheme.text }]}>
-              Name
-            </Text>
-            <View style={styles.textbox}>
-              <TextInput
-                style={[
-                  styles.Textinputdesign,
-                  {
-                    backgroundColor: darkTheme.inputBackground,
-                    borderColor: darkTheme.inputBorder,
-                    color: darkTheme.text,
-                  },
-                ]}
-                placeholder="Enter your Name"
-                placeholderTextColor={darkTheme.text}
-                value={displayName}
-                onChangeText={(text) => setName(text)}
-              />
-            </View>
+          <View style={styles.form}>
+            <CustomInput
+              label="Full Name"
+              placeholder="Enter your name"
+              value={displayName}
+              onChangeText={setName}
+            />
 
-            <Text style={[styles.emailtext, { color: darkTheme.text }]}>
-              Email
-            </Text>
-            <View style={styles.textbox}>
-              <TextInput
-                style={[
-                  styles.Textinputdesign,
-                  {
-                    backgroundColor: darkTheme.inputBackground,
-                    borderColor: darkTheme.inputBorder,
-                    color: darkTheme.text,
-                  },
-                ]}
-                placeholder="Enter your Email"
-                placeholderTextColor={darkTheme.text}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-              />
-            </View>
+            <CustomInput
+              label="Email Address"
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
 
-            <Text style={[styles.emailtext, { color: darkTheme.text }]}>
-              Password
-            </Text>
-            <View style={styles.textbox}>
-              <TextInput
-                secureTextEntry={showPassword}
-                style={[
-                  styles.Textinputdesign,
-                  {
-                    backgroundColor: darkTheme.inputBackground,
-                    borderColor: darkTheme.inputBorder,
-                    color: darkTheme.text,
-                  },
-                ]}
-                placeholder="Enter your Password"
-                placeholderTextColor={darkTheme.text}
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  marginTop: 16,
-                  paddingLeft: 270,
-                }}
-              >
-                <TouchableOpacity onPress={togglePasswordVisibility}>
-                  {showPassword ? (
-                    <Entypo name="eye" size={28} color={darkTheme.iconColor} />
-                  ) : (
-                    <Entypo
-                      name="eye-with-line"
-                      size={24}
-                      color={darkTheme.iconColor}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
+            <CustomInput
+              label="Password"
+              placeholder="Create password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={showPassword}
+              togglePasswordVisibility={togglePasswordVisibility}
+              showPassword={showPassword}
+              isPassword
+            />
 
-            <Text style={[styles.emailtext, { color: darkTheme.text }]}>
-              Confirm Password
-            </Text>
-            <View style={styles.textbox}>
-              <TextInput
-                secureTextEntry={confirmShowPassword}
-                style={[
-                  styles.Textinputdesign,
-                  {
-                    backgroundColor: darkTheme.inputBackground,
-                    borderColor: darkTheme.inputBorder,
-                    color: darkTheme.text,
-                  },
-                ]}
-                placeholder="Enter your Password again"
-                placeholderTextColor={darkTheme.text}
-                value={confirmPassword}
-                onChangeText={(text) => setConfirmPassword(text)}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  marginTop: 16,
-                  paddingLeft: 270,
-                }}
-              >
-                <TouchableOpacity onPress={togglePasswordVisibilityConfirm}>
-                  {confirmShowPassword ? (
-                    <Entypo name="eye" size={28} color={darkTheme.iconColor} />
-                  ) : (
-                    <Entypo
-                      name="eye-with-line"
-                      size={24}
-                      color={darkTheme.iconColor}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
+            <CustomInput
+              label="Confirm Password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry={confirmShowPassword}
+              togglePasswordVisibility={togglePasswordVisibilityConfirm}
+              showPassword={confirmShowPassword}
+              isPassword
+            />
 
-            <Touchablebutton
-              loading={loading}
-              title="Register"
-              buttonStyle={{
-                backgroundColor: "#2c3e50",
-                borderRadius: 10,
-                paddingVertical: 15,
-              }}
-              textStyle={{ color: "#ecf0f1", fontSize: 25, fontWeight: "bold" }}
+            <TouchableOpacity 
+              style={[styles.button, loading && styles.buttonDisabled]}
               onPress={onSignup}
-            />
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color={theme.colors.text.light} />
+              ) : (
+                <Text style={styles.buttonText}>Sign Up</Text>
+              )}
+            </TouchableOpacity>
 
-            <TouchText
+            <TouchableOpacity 
+              style={styles.loginButton}
               onPress={() => props.navigation.navigate("Login")}
-              notaccount={{ color: "#bdc3c7" }}
-              account={{ marginTop: 15, marginRight: 80, color: "#ecf0f1" }}
-              title="Already have an account? Login"
-            />
+            >
+              <Text style={styles.loginText}>
+                Already have an account? <Text style={styles.loginTextBold}>Sign In</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -250,29 +148,67 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
-
 const styles = StyleSheet.create({
-  registerText: {
-    fontSize: 40,
-    fontWeight: "bold",
-    alignSelf: "center",
-    marginTop: -20,
-    letterSpacing: 2,
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background
   },
-  emailtext: {
-    marginLeft: 35,
-    marginTop: 20,
+  content: {
+    flex: 1,
+    padding: theme.spacing.lg
   },
-  textbox: {
-    alignItems: "center",
-    marginTop: 5,
+  header: {
+    alignItems: 'center',
+    marginVertical: theme.spacing.xl
   },
-  Textinputdesign: {
-    height: 55,
-    borderWidth: 2,
-    width: "90%",
-    borderRadius: 10,
-    padding: 15,
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+    marginBottom: theme.spacing.lg
   },
+  title: {
+    ...theme.typography.h1,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.xs
+  },
+  subtitle: {
+    ...theme.typography.body,
+    color: theme.colors.text.secondary
+  },
+  form: {
+    alignItems: 'center',
+    marginTop: theme.spacing.xl
+  },
+  button: {
+    width: '90%',
+    height: 56,
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing.xl,
+    ...theme.shadows.medium
+  },
+  buttonDisabled: {
+    opacity: 0.7
+  },
+  buttonText: {
+    color: theme.colors.text.light,
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  loginButton: {
+    marginTop: theme.spacing.xl
+  },
+  loginText: {
+    ...theme.typography.body,
+    color: theme.colors.text.secondary
+  },
+  loginTextBold: {
+    color: theme.colors.primary,
+    fontWeight: 'bold'
+  }
 });
+
+export default Signup;

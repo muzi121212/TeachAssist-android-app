@@ -28,7 +28,7 @@ import Svg, { Circle } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { Darkgreen } from "./component/Color";
+import { Darkgreen, Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary } from "./component/Color";
 import Modalbtn from "./component/Modalbtn";
 import Loading from "./component/Loading";
 import { Entypo } from "@expo/vector-icons";
@@ -308,15 +308,10 @@ const CourseDetail = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Background }}>
       <View style={styles.container}>
         <View
-          style={{
-            backgroundColor: "#2a2a2a",
-            height: "37%",
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-          }}
+          style={styles.header}
         >
           <MenuProvider>
             <View
@@ -327,11 +322,11 @@ const CourseDetail = ({ route }) => {
                 paddingHorizontal: 5,
               }}
             >
-              <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Home")}> 
                 <Ionicons
                   name="chevron-back-sharp"
                   size={34}
-                  style={{ color: "white", marginTop: 5 }}
+                  style={{ color: Surface, marginTop: 5 }}
                 />
               </TouchableOpacity>
             </View>
@@ -344,12 +339,7 @@ const CourseDetail = ({ route }) => {
               }}
             >
               <Text
-                style={{
-                  color: "#ffffff",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  letterSpacing: 3,
-                }}
+                style={styles.headerTitle}
               >
                 {editableCourse.courseName}{" "}
               </Text>
@@ -365,7 +355,7 @@ const CourseDetail = ({ route }) => {
             >
               <Menu>
                 <MenuTrigger>
-                  <Entypo name="dots-three-vertical" size={24} color="white" />
+                  <Entypo name="dots-three-vertical" size={24} color={Accent} />
                 </MenuTrigger>
                 <MenuOptions>
                   <MenuOption
@@ -388,21 +378,14 @@ const CourseDetail = ({ route }) => {
             </View>
             <View style={{ height: 140, marginHorizontal: 12 }}>
               <Text
-                style={{ color: "white", marginTop: 20, textAlign: "justify" }}
+                style={styles.headerDesc}
               >
                 {editableCourse.description}{" "}
               </Text>
             </View>
 
             <Text
-              style={{
-                letterSpacing: 1,
-                color: "#ffffff",
-                fontSize: 20,
-                fontWeight: "bold",
-                marginHorizontal: 12,
-                marginTop: -4,
-              }}
+              style={styles.headerSectionTitle}
             >
               Class Representative Details
             </Text>
@@ -417,7 +400,7 @@ const CourseDetail = ({ route }) => {
               <TouchableOpacity
                 onPress={() => openEmailCompose(editableCourse.Email)}
               >
-                <Text style={[styles.CRText, {color: 'pink'}]}> {editableCourse.Email} </Text>
+                <Text style={[styles.CRText, {color: Accent}]}> {editableCourse.Email} </Text>
               </TouchableOpacity>
             </View>
 
@@ -426,7 +409,7 @@ const CourseDetail = ({ route }) => {
               <TouchableOpacity
                 onPress={() => openWhatsAppChat(editableCourse.Contact)}
               >
-                <Text style={[styles.CRText, {color:'green'}]}> {editableCourse.Contact} </Text>
+                <Text style={[styles.CRText, {color: Secondary}]}> {editableCourse.Contact} </Text>
               </TouchableOpacity>
             </View>
           </MenuProvider>
@@ -458,7 +441,7 @@ const CourseDetail = ({ route }) => {
                 cx="50%"
                 cy="50%"
                 r="40%"
-                stroke="#ffffff"
+                stroke={Primary}
                 strokeWidth="7"
                 fill="transparent"
                 strokeDasharray={getDashArray()}
@@ -469,7 +452,7 @@ const CourseDetail = ({ route }) => {
                   position: "relative",
                   top: "40%",
                   fontSize: 20,
-                  color: "#aaa",
+                  color: TextSecondary,
                   alignSelf: "center",
                   marginTop: "17%",
                 }}
@@ -491,7 +474,7 @@ const CourseDetail = ({ route }) => {
                 <TextInput
                   style={[styles.input, styles.textArea]}
                   placeholder="Add your Content"
-                  placeholderTextColor="#aaa"
+                  placeholderTextColor={TextSecondary}
                   multiline={true}
                   value={content}
                   onChangeText={(text) => setContent(text)}
@@ -521,54 +504,24 @@ const CourseDetail = ({ route }) => {
               <TouchableOpacity onPress={() => handleContentPress(item)}>
                 <View
                   key={item.id}
-                  style={{
-                    height: 110,
-                    width: "90%",
-                    backgroundColor: "#333",
-                    borderColor: "white",
-                    marginVertical: 10,
-                    borderRadius: 10,
-                    alignSelf: "center",
-                    borderWidth: 1,
-                  }}
+                  style={styles.contentCard}
                 >
                   <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
                     <View
-                      style={{
-                        height: 50,
-                        width: 50,
-                        backgroundColor: "rgba(49, 119, 115, 1)",
-                        borderRadius: 50,
-                        marginTop: 28,
-                      }}
+                      style={styles.contentIcon}
                     >
                       <Text
-                        style={{
-                          color: "white",
-                          fontWeight: "bold",
-                          fontSize: 30,
-                          alignSelf: "center",
-                          marginTop: 4,
-                        }}
+                        style={styles.contentIconText}
                       >
                         {item.content.charAt(0)}
                       </Text>
                     </View>
                     <View
-                      style={{
-                        paddingHorizontal: 18,
-                        paddingRight: 50,
-                        marginTop: 24,
-                      }}
+                      style={styles.contentInfo}
                     >
                       <Text
                         numberOfLines={3}
-                        style={{
-                          color: "#ffffff",
-                          fontWeight: "bold",
-                          fontSize: 13,
-                          marginRight: 10,
-                        }}
+                        style={styles.contentText}
                       >
                         {item.content}
                       </Text>
@@ -583,7 +536,7 @@ const CourseDetail = ({ route }) => {
                   >
                     <Text>Status: </Text>
                     <Text
-                      style={{ color: item.completed ? "green" : "orange" }}
+                      style={{ color: item.completed ? Primary : Secondary, fontWeight: "bold" }}
                     >
                       {item.status ? item.status : "None"}
                     </Text>
@@ -602,7 +555,7 @@ const CourseDetail = ({ route }) => {
                         <Entypo
                           name="dots-three-vertical"
                           size={22}
-                          color={Darkgreen}
+                          color={Accent}
                         />
                       </MenuTrigger>
                       <MenuOptions>
@@ -685,7 +638,7 @@ onChangeText={(text) => setEditedContent(text)}
             <TextInput
               style={[styles.input, { marginTop: 10 }]}
               placeholder="Course Name"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={TextSecondary}
               value={courseeditModalVisi.courseName}
               onChangeText={(text) =>
                 setEditiableCourse({ ...editableCourse, courseName: text })
@@ -695,7 +648,7 @@ onChangeText={(text) => setEditedContent(text)}
             <TextInput
               style={styles.input}
               placeholder="Class Representative Name"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={TextSecondary}
               value={courseeditModalVisi.Name}
               onChangeText={(text) =>
                 setEditiableCourse({ ...editableCourse, Name: text })
@@ -704,7 +657,7 @@ onChangeText={(text) => setEditedContent(text)}
             <TextInput
               style={styles.input}
               placeholder="Class Representative Email"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={TextSecondary}
               value={courseeditModalVisi.Email}
               onChangeText={(text) =>
                 setEditiableCourse({ ...editableCourse, Email: text })
@@ -713,7 +666,7 @@ onChangeText={(text) => setEditedContent(text)}
             <TextInput
               style={styles.input}
               placeholder="Class Representative Contact"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={TextSecondary}
               value={courseeditModalVisi.contact}
               onChangeText={(text) =>
                 setEditiableCourse({ ...editableCourse, Contact: text })
@@ -723,7 +676,7 @@ onChangeText={(text) => setEditedContent(text)}
             <TextInput
               style={[styles.input, { height: 100 }]}
               placeholder="Course Description"
-              placeholderTextColor="#aaa"
+              placeholderTextColor={TextSecondary}
               value={courseeditModalVisi.description}
               multiline={true}
               textAlignVertical="top"
@@ -795,11 +748,44 @@ export default CourseDetail;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: Background,
+  },
+  header: {
+    backgroundColor: Primary,
+    height: "37%",
+    borderBottomRightRadius: 24,
+    borderBottomLeftRadius: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  headerTitle: {
+    color: Surface,
+    fontWeight: "bold",
+    fontSize: 22,
+    letterSpacing: 2,
+  },
+  headerDesc: {
+    color: Surface,
+    marginTop: 20,
+    textAlign: "justify",
+    fontSize: 15,
+    fontWeight: "400",
+  },
+  headerSectionTitle: {
+    letterSpacing: 1,
+    color: Accent,
+    fontSize: 18,
+    fontWeight: "bold",
+    marginHorizontal: 12,
+    marginTop: -4,
+    marginBottom: 4,
   },
   addButtonText: {
     fontSize: 16,
-    color: "white",
+    color: Surface,
   },
   modalContainer: {
     flex: 1,
@@ -809,70 +795,76 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "90%",
-    backgroundColor: "#1e1e1e",
-    borderRadius: 10,
-    padding: 20,
-    borderColor: "#333",
+    backgroundColor: Surface,
+    borderRadius: 16,
+    padding: 24,
+    borderColor: Accent,
     borderWidth: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 8,
+    elevation: 6,
   },
   modal: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: Background,
     padding: 20,
-    borderRadius: 10,
-    borderColor: "#333",
+    borderRadius: 16,
+    borderColor: Accent,
     borderWidth: 1,
   },
   input: {
-    backgroundColor: "#2a2a2a",
-    color: "#ffffff",
+    backgroundColor: Background,
+    color: TextPrimary,
     borderWidth: 1,
-    borderColor: "#444",
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    borderColor: Accent,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginBottom: 12,
+    fontSize: 15,
   },
   addButtonText: {
-    color: "#ffffff",
+    color: Surface,
     fontSize: 16,
     fontWeight: "bold",
   },
   textStyle: {
-    fontSize: 18,
-    color: "#ffffff",
+    fontSize: 16,
+    color: TextPrimary,
     marginVertical: 2,
   },
   CRText: {
-    color: "#ffffff",
+    color: Surface,
     fontSize: 15,
   },
   editcoursedetail: {
-    backgroundColor: "#333",
+    backgroundColor: Secondary,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 8,
     alignItems: "center",
     flex: 1,
     marginHorizontal: 10,
-    borderColor: "white",
+    borderColor: Accent,
   },
   markmodal: {
-    backgroundColor: Darkgreen,
+    backgroundColor: Primary,
     height: 50,
     width: "95%",
-    borderRadius: 10,
+    borderRadius: 12,
     marginTop: 20,
     alignSelf: "center",
     justifyContent: "center",
   },
   markmodaltext: {
-    color: "white",
-    fontSize: 20,
+    color: Surface,
+    fontSize: 18,
     alignSelf: "center",
     justifyContent: "center",
   },
   headerText: {
     fontSize: 20,
-    color: "#ffffff",
+    color: Primary,
     marginBottom: 20,
     textAlign: "center",
     letterSpacing: 2,
@@ -888,15 +880,64 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   button: {
-    backgroundColor: "#333",
+    backgroundColor: Primary,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 8,
     alignItems: "center",
     flex: 1,
     marginHorizontal: 5,
   },
   buttonText: {
-    color: "#ffffff",
+    color: Surface,
     fontSize: 16,
+  },
+  contentCard: {
+    minHeight: 100,
+    width: "90%",
+    backgroundColor: Surface,
+    borderColor: Primary,
+    marginVertical: 10,
+    borderRadius: 14,
+    alignSelf: "center",
+    borderWidth: 1.2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 6,
+    elevation: 3,
+    justifyContent: "center",
+  },
+  contentIcon: {
+    height: 48,
+    width: 48,
+    backgroundColor: Primary,
+    borderRadius: 24,
+    marginTop: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  contentIconText: {
+    color: Surface,
+    fontWeight: "bold",
+    fontSize: 24,
+    alignSelf: "center",
+    marginTop: 2,
+  },
+  contentInfo: {
+    paddingHorizontal: 18,
+    paddingRight: 50,
+    marginTop: 24,
+    flex: 1,
+  },
+  contentText: {
+    color: TextPrimary,
+    fontWeight: "bold",
+    fontSize: 14,
+    marginRight: 10,
   },
 });

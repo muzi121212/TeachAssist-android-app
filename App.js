@@ -30,7 +30,7 @@ import HolidayScreen from "./Screen/HolidayScreen";
 import ShareNotes from "./Screen/ShareNotes";
 import Timetable from "./Screen/Timetable";
 // import { getAuth,onAuthStateChanged } from 'firebase/auth';
-import { Darkgreen } from "./Screen/component/Color";
+import { Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary, Darkgreen } from "./Screen/component/Color";
 import CustomDrawer from "./Screen/CustomDrawer";
 import {
   doc,
@@ -90,66 +90,11 @@ const AuthStack = () => {
     </Stack.Navigator>
   );
 };
-// const Tab = createBottomTabNavigator();
-
-// const MainTabs = () => {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({ route }) => ({
-//         tabBarIcon: ({ focused, color, size }) => {
-//           let iconName;
-
-//           if (route.name === "Home") {
-//             iconName = focused ? "home" : "home-outline";
-//             return <FontAwesome5 name={iconName} size={size} color={color} />;
-//           } else if (route.name === "Courses") {
-//             iconName = focused ? "book" : "book-outline";
-//             return (
-//               <MaterialCommunityIcons
-//                 name={iconName}
-//                 size={size}
-//                 color={color}
-//               />
-//             );
-//           }
-//         },
-//         tabBarActiveTintColor: Darkgreen,
-//         tabBarInactiveTintColor: "gray",
-//         tabBarStyle: {
-//           backgroundColor: "#ffffff",
-//           borderTopColor: "transparent",
-//           elevation: 0, // remove shadow on Android
-//           shadowOpacity: 0, // remove shadow on iOS
-//         },
-//         tabBarLabelStyle: {
-//           fontSize: 12,
-//           fontWeight: "bold",
-//         },
-//         tabBarShowLabel: true, // show tab labels
-//       })}
-//     >
-//       <Tab.Screen
-//         name="Home"
-//         component={DrawerStack}
-//         options={{ tabBarLabel: "Home" }}
-//       />
-//       <Tab.Screen
-//         name="Courses"
-//         component={Home}
-//         options={{ tabBarLabel: "Courses" }}
-//       />
-//     </Tab.Navigator>
-//   );
-// };
 
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: true }}>
-      {/* <Stack.Screen
-        name="MainTabs"
-        component={MainTabs}
-        options={{ headerShown: false }}
-      /> */}
+ 
       <Stack.Screen
         name="Home"
         component={DrawerStack}
@@ -212,16 +157,9 @@ const DrawerStack = () => {
 
     if (docSnap.exists()) {
       const userData = docSnap.data();
-      console.log("Document data:", userData);
-
-      // Assuming "Email" is a top-level field in the document
       const userEmail = userData.email;
-      console.log("User Email:", userEmail);
-
       setData(userData);
       setEmail(userEmail);
-    } else {
-      console.log("No such document!");
     }
   };
 
@@ -231,99 +169,111 @@ const DrawerStack = () => {
 
   return (
     <Drawer.Navigator
-    screenOptions={{
-      headerStyle: { backgroundColor: '#E0E0E0' }, // Change this to your desired color
-      headerTintColor: 'black', // Change the header text color if needed
-      drawerActiveTintColor: Darkgreen,
-      drawerInactiveTintColor: 'black',
-    }}
+      screenOptions={{
+        headerStyle: { backgroundColor: Surface },
+        headerTintColor: TextPrimary,
+        drawerActiveTintColor: Primary,
+        drawerInactiveTintColor: TextSecondary,
+        drawerStyle: { backgroundColor: Background },
+      }}
       drawerContent={(props) => {
         return (
-          <SafeAreaView>
+          <SafeAreaView style={{ flex: 1, backgroundColor: Background }}>
             <View
               style={{
-                height: 230,
-                width: "100%",
-                justifyContent: "center",
+                paddingTop: 32,
+                paddingBottom: 24,
+                backgroundColor: Primary,
                 alignItems: "center",
-                borderBottomColor: "#f4f4f4",
-                borderBottomWidth: 1,
+                borderBottomLeftRadius: 32,
+                borderBottomRightRadius: 32,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.10,
+                shadowRadius: 8,
+                elevation: 4,
               }}
             >
               <View
                 style={{
-                  height: 150,
-                  width: 150,
-                  borderRadius: 50,
-                  marginTop: 10,
+                  height: 110,
+                  width: 110,
+                  borderRadius: 55,
+                  borderWidth: 3,
+                  borderColor: Accent,
+                  overflow: "hidden",
+                  backgroundColor: Surface,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 6,
+                  elevation: 6,
+                  marginBottom: 12,
                 }}
               >
                 {data.profileImage ? (
-                  // If there is a profile image, show it
                   <Image
-                    style={{ height: 150, width: 150 }}
+                    style={{ height: 110, width: 110 }}
                     source={require("./assets/images.jpg")}
                   />
                 ) : (
-                  // If there is no profile image, show the default Image
-
                   <ProfileImage />
                 )}
               </View>
               <Text
                 style={{
                   fontSize: 22,
-                  marginVertical: 6,
                   fontWeight: "bold",
-                  color: "#111",
+                  color: Surface,
+                  marginBottom: 2,
+                  letterSpacing: 0.2,
                 }}
               >
                 {data.displayName}
               </Text>
               <Text
                 style={{
-                  fontSize: 12,
-                  color: "#111",
+                  fontSize: 13,
+                  color: Accent,
+                  marginBottom: 2,
+                  letterSpacing: 0.1,
                 }}
               >
                 {email}
               </Text>
             </View>
-            <DrawerItemList {...props} />
+            <View style={{ flex: 1, backgroundColor: Background, paddingTop: 8 }}>
+              <DrawerItemList {...props} />
+            </View>
             <View
               style={{
-                height: 50,
-                width: "100%",
-                justifyContent: "center",
-                // alignItems: "center",
-                borderBottomColor: "#f4f4f4",
-                borderTopColor: "#f4f4f4",
-                borderBottomWidth: 1,
+                borderTopColor: "#e0e0e0",
                 borderTopWidth: 1,
-                marginTop: 280,
+                paddingVertical: 18,
+                paddingHorizontal: 24,
+                backgroundColor: Background,
               }}
             >
-              <View>
-                <TouchableOpacity
-                  style={{ flexDirection: "row" }}
-                  onPress={() => {
-                    Services.Logout();
-                    setUserData(null);
-                  }}
+              <TouchableOpacity
+                style={{ flexDirection: "row", alignItems: "center" }}
+                onPress={() => {
+                  Services.Logout();
+                  setUserData(null);
+                }}
+                activeOpacity={0.7}
+              >
+                <AntDesign
+                  name="logout"
+                  size={22}
+                  color={Secondary}
+                  style={{ marginRight: 16 }}
+                />
+                <Text
+                  style={{ fontSize: 16, fontWeight: "600", color: TextPrimary }}
                 >
-                  <AntDesign
-                    name="logout"
-                    size={18}
-                    color="#808080"
-                    style={{ marginLeft: 21 }}
-                  />
-                  <Text
-                    style={{ fontSize: 15, marginLeft: 31, fontWeight: "bold" }}
-                  >
-                    Logout/Signout
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  Logout / Signout
+                </Text>
+              </TouchableOpacity>
             </View>
           </SafeAreaView>
         );

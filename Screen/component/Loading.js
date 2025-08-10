@@ -7,7 +7,7 @@ const Loading = (props) => {
 const[loading,setLoading] = useState(false)
 
   return (
-    <View style={{justifyContent:'center',alignItems:'center',flex:1, backgroundColor:'#1E1E1E'}}>
+    <View style={{justifyContent:'center',alignItems:'center',flex:1, backgroundColor:'#fff'}}>
       <ActivityIndicator size={40} color={Darkgreen} />
     </View>
   )

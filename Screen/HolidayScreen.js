@@ -28,6 +28,7 @@
 //   orderBy,
 // } from "firebase/firestore";
 // import Modalbtn from "./component/Modalbtn";
+// import { Darkgreen } from "./component/Color";
 
 // const HolidayScreen = () => {
 //   const [date, setDate] = useState(new Date());
@@ -369,6 +370,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import Modalbtn from "./component/Modalbtn";
+import { Darkgreen, Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary } from "./component/Color";
 
 const HolidayScreen = () => {
   const [date, setDate] = useState(new Date());
@@ -503,7 +505,7 @@ const HolidayScreen = () => {
                 value={holidayName}
                 onChangeText={setHolidayName}
                 placeholder="Enter holiday name"
-                placeholderTextColor="#888"
+                placeholderTextColor={TextSecondary}
               />
               <Button title="Select Date" onPress={() => setShowPicker(true)} />
               {showPicker && (
@@ -557,7 +559,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#1E1E1E",
+    backgroundColor: Background,
   },
   title: {
     fontSize: 24,
@@ -567,78 +569,98 @@ const styles = StyleSheet.create({
   selectedDate: {
     fontSize: 18,
     marginVertical: 10,
-    color: "#36454F",
+    color: Primary,
   },
   formContainer: {
     marginBottom: 10,
-    backgroundColor: "#F5F5F5",
-    padding: 20,
-    borderRadius: 10,
-    elevation: 4,
+    backgroundColor: Surface,
+    padding: 18,
+    borderRadius: 14,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 6,
   },
   modalOverlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
     width: "90%",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 10,
-    padding: 20,
-    elevation: 10,
+    backgroundColor: Surface,
+    borderRadius: 16,
+    padding: 24,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 8,
   },
   modalTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginBottom: 18,
     alignSelf: "center",
-    color: "#333",
+    color: Primary,
   },
   label: {
-    fontSize: 18,
+    fontSize: 15,
     marginBottom: 8,
-    color: "#555",
+    color: TextPrimary,
+    fontWeight: "600",
   },
   input: {
     width: "100%",
     height: 40,
-    borderColor: "#CCC",
-    borderWidth: 1,
-    borderRadius: 5,
+    borderColor: Accent,
+    borderWidth: 1.5,
+    borderRadius: 8,
     marginBottom: 16,
-    paddingHorizontal: 8,
-    color: "#333",
+    paddingHorizontal: 12,
+    color: TextPrimary,
+    backgroundColor: Background,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 2,
+    elevation: 2,
   },
   holidayList: {
     marginTop: 20,
     width: "100%",
   },
   holidayItem: {
-    backgroundColor: "#FFFFFF",
-    padding: 16,
-    borderRadius: 10,
-    elevation: 4,
+    backgroundColor: Surface,
+    padding: 18,
+    borderRadius: 14,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 6,
     marginBottom: 16,
   },
   holidayName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: Primary,
   },
   holidayDate: {
-    fontSize: 14,
-    color: "#777",
+    fontSize: 15,
+    color: TextPrimary,
   },
   deleteButton: {
     alignSelf: "flex-end",
     padding: 8,
-    backgroundColor: "#FF3B30",
-    borderRadius: 4,
+    backgroundColor: Secondary,
+    borderRadius: 6,
   },
   deleteButtonText: {
-    color: "#FFFFFF",
+    color: Surface,
     fontWeight: "bold",
   },
   modalButtonContainer: {
@@ -648,7 +670,7 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flexDirection: "row",
-    backgroundColor: "#FF3B30",
+    backgroundColor: Secondary,
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
@@ -656,7 +678,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cancelButtonText: {
-    color: "white",
+    color: Surface,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -664,16 +686,16 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   button: {
-    backgroundColor: "#007BFF", // Primary color
+    backgroundColor: Primary,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 10,
   },
   buttonText: {
-    color: "#fff", // Text color
+    color: Surface,
     fontSize: 16,
     fontWeight: "bold",
   },

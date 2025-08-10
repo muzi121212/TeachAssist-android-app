@@ -30,7 +30,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { auth } from "./Firebase";
 import { AntDesign } from "@expo/vector-icons";
-import { Darkgreen } from "./component/Color";
+import { Darkgreen, Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary } from "./component/Color";
 import { getAuth } from "firebase/auth";
 import Modalbtn from "./component/Modalbtn";
 import Loading from "./component/Loading";
@@ -272,51 +272,30 @@ const Home = (props) => {
         }
       >
         <View
-          style={{
-            height: 120,
-            width: "93%",
-            backgroundColor: "rgba(49, 119, 115, .1)",
-            borderColor: Darkgreen,
-            marginVertical: 10,
-            borderRadius: 10,
-            alignSelf: "center",
-            borderWidth: 2,
-          }}
+          style={styles.courseCard}
         >
           <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
             <View
-              style={{
-                height: 50,
-                width: 50,
-                backgroundColor: "rgba(49, 119, 115, 1)",
-                borderRadius: 50,
-                marginTop: 33,
-              }}
+              style={styles.courseIcon}
             >
               <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: 30,
-                  alignSelf: "center",
-                  marginTop: 4,
-                }}
+                style={styles.courseIconText}
               >
                 {item.courseName.charAt(0)}
               </Text>
             </View>
             <View
-              style={{ paddingHorizontal: 20, paddingRight: 50, marginTop: 20 }}
+              style={styles.courseInfo}
             >
               <Text
                 numberOfLines={1}
-                style={{ color: Darkgreen, fontWeight: "bold", fontSize: 20 }}
+                style={styles.courseName}
               >
                 {item.courseName}
               </Text>
               <Text
                 numberOfLines={3}
-                style={{ color: Darkgreen, fontSize: 12 }}
+                style={styles.courseDesc}
               >
                 {item.description}
               </Text>
@@ -349,7 +328,7 @@ const Home = (props) => {
                   style={[
                     styles.input,
                     {
-                      borderColor: courseNameError ? "red" : "#E8EAF6",
+                      borderColor: courseNameError ? "red" : Accent,
                     },
                   ]}
                   placeholder="Course Name"
@@ -467,7 +446,7 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: Background,
     paddingTop: 20,
   },
   title: {
@@ -491,7 +470,7 @@ const styles = StyleSheet.create({
     right: 20,
     width: 60,
     height: 62,
-    backgroundColor: Darkgreen,
+    backgroundColor: Primary,
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
@@ -499,29 +478,34 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     fontSize: 16,
-    color: "white",
+    color: Surface,
   },
   modal: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark background color
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: "#444444", // Dark modal content background color
-    borderRadius: 10,
-    padding: 20,
+    backgroundColor: Surface,
+    borderRadius: 16,
+    padding: 24,
     width: "90%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 8,
+    elevation: 6,
   },
   input: {
-    color: '#fff',
+    color: TextPrimary,
+    backgroundColor: Background,
     borderWidth: 1,
-    borderColor: "#E8EAF6",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-   
-    
+    borderColor: Accent,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    fontSize: 15,
   },
   errorText: {
     color: "red",
@@ -530,11 +514,16 @@ const styles = StyleSheet.create({
     marginTop: -7,
   },
   suggestionsContainer: {
-    backgroundColor: "#F0F0F0",
-    borderRadius: 5,
+    backgroundColor: Surface,
+    borderRadius: 8,
     padding: 10,
     marginTop: -10,
     marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
   },
   suggestionItem: {
     paddingVertical: 5,
@@ -542,37 +531,112 @@ const styles = StyleSheet.create({
   wordCount: {
     alignSelf: "flex-end",
     marginRight: 20,
+    color: TextSecondary,
+    fontSize: 12,
   },
   buttonContainer: {
     flexDirection: "row",
     marginTop: 10,
-
     alignSelf: "center",
   },
   addButton: {
-    backgroundColor: "#3B444B", // Change to orange color
+    backgroundColor: Primary,
     borderRadius: 12,
     width: 100,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: Accent,
+    marginHorizontal: 8,
   },
   cancelButton: {
-    backgroundColor: "#CC0000", // Change to orange color
+    backgroundColor: Secondary,
     borderRadius: 12,
     width: 100,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: Accent,
+    marginHorizontal: 8,
   },
   addButtonText: {
-    color: "white",
+    color: Surface,
     fontWeight: "bold",
+    fontSize: 15,
+  },
+  courseCard: {
+    minHeight: 110,
+    width: "93%",
+    backgroundColor: Surface,
+    borderColor: Primary,
+    marginVertical: 10,
+    borderRadius: 16,
+    alignSelf: "center",
+    borderWidth: 1.5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 6,
+    elevation: 4,
+    justifyContent: "center",
+  },
+  courseIcon: {
+    height: 54,
+    width: 54,
+    backgroundColor: Primary,
+    borderRadius: 27,
+    marginTop: 33,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  courseIconText: {
+    color: Surface,
+    fontWeight: "bold",
+    fontSize: 28,
+    alignSelf: "center",
+    marginTop: 2,
+  },
+  courseInfo: {
+    paddingHorizontal: 20,
+    paddingRight: 50,
+    marginTop: 20,
+    flex: 1,
+  },
+  courseName: {
+    color: TextPrimary,
+    fontWeight: "bold",
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  courseDesc: {
+    color: TextSecondary,
+    fontSize: 13,
+    marginTop: 2,
   },
 });
 
 export default Home;
+
+
+
+// import { StyleSheet, Text, View } from 'react-native'
+// import React from 'react'
+
+// const Home = () => {
+//   return (
+//     <View>
+//       <Text>Home</Text>
+//     </View>
+//   )
+// }
+
+// export default Home
+
+// const styles = StyleSheet.create({})

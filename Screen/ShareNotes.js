@@ -1,495 +1,3 @@
-// // import React, { useEffect, useState } from 'react';
-// // import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
-// // import * as DocumentPicker from 'expo-document-picker';
-// // import { auth, db, storage } from './Firebase';
-// // import { addDoc, collection, getDocs } from 'firebase/firestore';
-// // import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-// // import { NavigationContainer } from '@react-navigation/native';
-// // import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// // const Stack = createNativeStackNavigator();
-
-
-
-// // export default function ShareNotes ({navigation}) {
-// //   const [document, setDocument] = useState(null);
-// //   const [userDocuments, setUserDocuments] = useState([]);
-
-// //   const pickDocument = async () => {
-    
-// //     const result = await DocumentPicker.getDocumentAsync({
-// //   multiple:true,
-// //   type:'application/pdf'
- 
-// //     });
-
-// //     console.log(result);
-
-// //     if (!result.canceled) {
-// //       setDocument({ uri: result.assets[0].uri, name: result.assets[0].name });
-// //     } else {
-// //       Alert.alert('Document selection canceled');
-// //     }
-// //   };
-
-// //   const uploadDocument = async (userId, documentInfo) => {
-// //     const userDocumentsCollection = collection(db, 'userDocuments');
-
-// //     try {
-// //       const docRef = await addDoc(userDocumentsCollection, {
-// //         userId: userId,
-// //         documentUrl: documentInfo.uri,
-// //         documentName: documentInfo.name,
-// //       });
-// //       console.log('Document stored in Firestore with ID: ', docRef.id);
-// //     } catch (error) {
-// //       console.error('Error adding document to Firestore', error);
-// //     }
-// //   };
-
-// //   const fetchUserDocuments = async (userId) => {
-// //     const userDocumentsCollection = collection(db, 'userDocuments');
-// //     const querySnapshot = await getDocs(userDocumentsCollection);
-
-// //     const documents = [];
-// //     querySnapshot.forEach((doc) => {
-// //       const data = doc.data();
-// //       if (data.userId === userId) {
-// //         documents.push({ name: data.documentName, uri: data.documentUrl });
-// //       }
-// //     });
-
-// //     setUserDocuments(documents);
-// //   };
-
-// //   useEffect(() => {
-// //     if (document) {
-// //       handleUploadDocument();
-// //       setDocument(null);
-// //     }
-
-// //     if (auth.currentUser) {
-// //       fetchUserDocuments(auth.currentUser.uid);
-// //     }
-// //   }, [document]);
-
-// //   const handleOpenDocument = (documentInfo) => {
-// //     // Add logic here to open the document using the appropriate method for your platform
-// //     // In this example, we'll just log the documentInfo
-// //     console.log('Opening document:', documentInfo);
-// //   };
-
-// //   const handleUploadDocument = async () => {
-// //     if (!document) return;
-
-// //     const blobDocument = await fetch(document.uri).then((response) => response.blob());
-// //     const metadata = {
-// //       contentType: 'application/pdf',
-// //     };
-
-// //     const storageRef = ref(storage, + auth.currentUser.uid + '_' + document.name);
-
-// //     const uploadTask = uploadBytesResumable(storageRef, blobDocument, metadata);
-
-// //     uploadTask.on(
-// //       'state_changed',
-// //       (snapshot) => {
-// //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-// //         console.log('Upload is ' + progress + '% done');
-// //       },
-// //       (error) => {
-// //         console.error('Document upload error', error);
-// //       },
-// //       async () => {
-// //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-// //         console.log('Document available at', downloadURL);
-
-// //         setUserDocuments([...userDocuments, { name: document.name, uri: downloadURL }]);
-// //         uploadDocument(auth.currentUser.uid, { name: document.name, uri: downloadURL });
-// //       }
-// //     );
-// //   };
-
-// //   return (
-// //     <SafeAreaView style={styles.container}>
-// // <View style={styles.container}>
-// // {userDocuments.length > 0 && (
-// //   <FlatList
-// //     data={userDocuments}
-// //     keyExtractor={(item, index) => index.toString()}
-// //     renderItem={({ item }) => (
-// //       <TouchableOpacity onPress={() => navigation.navigate('pdf', { pdfUri:  })}>
-// //         <Text style={{ marginTop: 20 }}>{item.name}</Text>
-// //       </TouchableOpacity>
-// //     )}
-// //   />
-// // )}
-// // <View>
-// //   <TouchableOpacity onPress={pickDocument}>
-// //     <Text>Add Document</Text>
-// //   </TouchableOpacity>
-// // </View>
-// // </View>
-// // </SafeAreaView>
-// //   );
-// // }
-
-// // const styles = StyleSheet.create({
-// //   container: {
-// //     flex: 1,
-// //     justifyContent: 'center',
-// //     alignItems: 'center',
-
-// //   },
-// // });
-
-
-// import React, { useEffect, useState } from 'react';
-// import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList } from 'react-native';
-// import * as DocumentPicker from 'expo-document-picker';
-// import { auth, db, storage } from './Firebase';
-// import { addDoc, collection, getDocs } from 'firebase/firestore';
-// import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-// import { WebView} from 'react-native-webview';
-// import { Ionicons, } from '@expo/vector-icons';
-// import { FontAwesome } from '@expo/vector-icons';
-// import { useNavigation } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import Services from './component/Services';
-
-// const Stack = createNativeStackNavigator();
-// export default function ShareNotes({}) {
-//   const [document, setDocument] = useState(null);
-//   const [userDocuments, setUserDocuments] = useState([]);
-//   const navigation = useNavigation()
-
-
-// useEffect(()=>{
-//   fetchUserDocuments();
-// },[])
-
-//   const pickDocument = async () => {
-//     const result = await DocumentPicker.getDocumentAsync({
-//       type: '*/*',
-//       multiple: true,
-//     });
-
-//     console.log(result);
-
-//     if (!result.canceled) {
-//       setDocument({ uri: result.assets[0].uri, name: result.assets[0].name });
-//     } else {
-//       Alert.alert('Document selection canceled');
-//     }
-//   };
-
-//   const uploadDocument = async ( documentInfo) => {
-//     const userDocumentsCollection = collection(db, 'userDocuments');
-
-//     try {
-//       const userId= await Services.getUserAuth()
-//       const docRef = await addDoc(userDocumentsCollection, {
-//         userId: userId,
-//         documentUrl: documentInfo.uri,
-//         documentName: documentInfo.name,
-//       });
-//       console.log('Document stored in Firestore with ID: ', docRef.id);
-//     } catch (error) {
-//       console.error('Error adding document to Firestore', error);
-//     }
-//   };
-
-//   const fetchUserDocuments = async () => {
-//     const userId= await Services.getUserAuth()
-//     const userDocumentsCollection = collection(db, 'userDocuments');
-//     const querySnapshot = await getDocs(userDocumentsCollection);
-
-//     const documents = [];
-//     querySnapshot.forEach((doc) => {
-//       const data = doc.data();
-//       if (data.userId === userId) {
-//         documents.push({ name: data.documentName, uri: data.documentUrl });
-//       }
-//     });
-
-//     setUserDocuments(documents);
-//   };
-
-//   useEffect(() => {
-//     if (document) {
-//       handleUploadDocument();
-//       setDocument(null);
-//     }
-
-//     // if (auth.currentUser) {
-//     //   fetchUserDocuments(auth.currentUser.uid);
-//     // }
-//   }, [document]);
-
-//   // const handleOpenDocument = (documentInfo) => {
-//   //   const driveViewerUrl = `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURIComponent(
-//   //     documentInfo.uri
-//   //   )}`;
-
-//   //   // Set the document URI to the Google Drive Viewer URL
-//   //   console.log('call',driveViewerUrl)
-//   //   setViewerUrl(driveViewerUrl); // Set the Google Drive viewer URL
-//   // };
-
-
-//   const handleUploadDocument = async () => {
-//     if (!document) return;
-//     const userId= Services.getUserAuth()
-//     const blobDocument = await fetch(document.uri).then((response) => response.blob());
-//     const metadata = {
-//       contentType: '*/*',
-//     };
-
-//     const storageRef = ref(storage, 'courseDocuments/' +userId + '_' + Date.now());
-
-//     const uploadTask = uploadBytesResumable(storageRef, blobDocument, metadata);
-
-//     uploadTask.on(
-//       'state_changed',
-//       (snapshot) => {
-//         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//         console.log('Upload is ' + progress + '% done');
-//       },
-//       (error) => {
-//         console.error('Document upload error', error);
-//       },
-//       async () => {
-//         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-//         console.log('Document available at', downloadURL);
-
-//         setUserDocuments([...userDocuments, { name: document.name, uri: downloadURL }]);
-//         uploadDocument(userId, { name: document.name, uri: downloadURL });
-//       }
-//     );
-//   };
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//     <View style={styles.container}>
-
-//     <View style={{marginTop:50,flexDirection:'row',alignItems:'center'}}>
-//     <TouchableOpacity style={{marginLeft:7}} onPress={()=>navigation.goBack()} >
-//     <Ionicons name="arrow-back" size={28} color="black" />  
-//     </TouchableOpacity>
-    
-//     <Text style={{marginLeft:13,fontSize:20,fontWeight:'bold',}}>Notes</Text>
-//     </View>
-
-//     <View style={{height:2,width:'100%',backgroundColor:'green',marginTop:9,}}></View>
-
-//     {userDocuments.length > 0 && (
-//       <FlatList
-//         data={userDocuments}
-//         keyExtractor={(item, index) => index.toString()}
-//         renderItem={({ item }) => (
-//           <View  > 
-//           <View style={{flexDirection:'row',marginTop:30,alignItems:'center',}}>
-          
-//           <FontAwesome name="file-text" size={24} color="black" />
-
-//           <TouchableOpacity onPress={() => navigation.navigate('pdf', { document:item, pdfUri: `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURIComponent(
-//             item.uri
-//           )}` })}>
-//             <Text style={{  }}>{item.name}</Text>
-//           </TouchableOpacity>
-//           </View>
-//           </View>
-//         )}
-//       />
-//     )}
-//     <View>
-//       <TouchableOpacity onPress={pickDocument}>
-//         <Text>Add Document</Text>
-//       </TouchableOpacity>
-//     </View>
-//     </View>
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-
-    
-    
-//   },
-// });
-
-
-// ShareNotes.js
-// import React, { useEffect, useState } from 'react';
-// import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert, FlatList,  } from 'react-native';
-// import * as DocumentPicker from 'expo-document-picker';
-// import { auth, db, storage } from './Firebase';
-// import { addDoc, collection, getDocs } from 'firebase/firestore';
-// import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-// import { Ionicons, FontAwesome } from '@expo/vector-icons';
-// import { useNavigation } from '@react-navigation/native';
-// import Services from './component/Services';  // Import the services file
-// import Loading from './component/Loading';
-
-// export default function ShareNotes() {
-//   const [document, setDocument] = useState(null);
-//   const [userDocuments, setUserDocuments] = useState([]);
-//   const navigation = useNavigation();
-//   const[loading,setLoading] = useState(true)
-
-
-  
-
-
-//   const pickDocument = async () => {
-//     const result = await DocumentPicker.getDocumentAsync({
-//       type: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint'],
-//     multiple: true,
-//     });
-
-//     if (!result.canceled) {
-//       setDocument({ uri: result.assets[0].uri, name: result.assets[0].name });
-//     } else {
-//       Alert.alert('Document selection canceled');
-//     }
-//   };
-
-//   const uploadDocument = async (userId, documentInfo) => {
-//     const userDocumentsCollection = collection(db, 'userDocuments');
-
-//     try {
-//       const docRef = await addDoc(userDocumentsCollection, {
-//         userId: userId,
-//         documentUrl: documentInfo.uri,
-//         documentName: documentInfo.name,
-//       });
-//       console.log('Document stored in Firestore with ID: ', docRef.id);
-//     } catch (error) {
-//       console.error('Error adding document to Firestore', error);
-//     }
-//   };
-
-//   const fetchUserDocuments = async (userId) => {
-//     setLoading(true)
-//     const userDocumentsCollection = collection(db, 'userDocuments');
-//     const querySnapshot = await getDocs(userDocumentsCollection);
-
-//     const documents = [];
-//     querySnapshot.forEach((doc) => {
-//       const data = doc.data();
-//       if (data.userId === userId) {
-//         documents.push({ name: data.documentName, uri: data.documentUrl });
-//       }
-//     });
-// setLoading(false)
-//     setUserDocuments(documents);
-//   };
-
-//   useEffect(() => {
-//     if (document) {
-//       handleUploadDocument();
-//       setDocument(null);
-//     }
-
-//     Services.getUserAuth().then((uid) => {
-//       if (uid) {
-//         fetchUserDocuments(uid);
-//       }
-//     });
-//   }, [document]);
-
-//   const handleUploadDocument = async () => {
-//     if (!document) return;
-
-//     const blobDocument = await fetch(document.uri).then((response) => response.blob());
-//     const metadata = {
-//       contentType: '*/*',
-//     };
-
-//     Services.getUserAuth().then((uid) => {
-//       if (uid) {
-//         const storageRef = ref(storage, `courseDocuments/${uid}_${Date.now()}`);
-
-//         const uploadTask = uploadBytesResumable(storageRef, blobDocument, metadata);
-
-//         uploadTask.on(
-//           'state_changed',
-//           (snapshot) => {
-//             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//             console.log('Upload is ' + progress + '% done');
-//           },
-//           (error) => {
-//             console.error('Document upload error', error);
-//           },
-//           async () => {
-//             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-//             console.log('Document available at', downloadURL);
-
-//             setUserDocuments([...userDocuments, { name: document.name, uri: downloadURL }]);
-//             uploadDocument(uid, { name: document.name, uri: downloadURL });
-//           }
-//         );
-//       }
-//     });
-//   }
-//   if(loading){
-// return<Loading/>
-//   }
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.container}>
-//           <View style={{marginTop:50,flexDirection:'row',alignItems:'center'}}>
-//           <TouchableOpacity style={{marginLeft:7}} onPress={()=>navigation.goBack()} >
-//           <Ionicons name="arrow-back" size={28} color="black" />  
-//           </TouchableOpacity>
-          
-//           <Text style={{marginLeft:13,fontSize:20,fontWeight:'bold',}}>Notes</Text>
-//           </View>
-      
-//           <View style={{height:2,width:'100%',backgroundColor:'green',marginTop:9,}}></View>
-      
-//           {userDocuments.length > 0 && (
-//             <FlatList
-//               data={userDocuments}
-//               keyExtractor={(item, index) => index.toString()}
-//               renderItem={({ item }) => (
-//                 <View  > 
-//                 <View style={{flexDirection:'row',marginTop:30,alignItems:'center',}}>
-                
-//                 <FontAwesome name="file-text" size={24} color="black" />
-      
-//                 <TouchableOpacity onPress={() => navigation.navigate('pdf', { document:item, pdfUri: `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURIComponent(
-//                   item.uri
-//                 )}` })}>
-//                   <Text style={{  }}>{item.name}</Text>
-//                 </TouchableOpacity>
-//                 </View>
-//                 </View>
-//               )}
-//             />
-//           )}
-//           <View>
-//             <TouchableOpacity onPress={pickDocument}>
-//               <Text>Add Document</Text>
-//             </TouchableOpacity>
-//           </View>
-//       </View>
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });
-
-
-
-
 
 
 
@@ -511,6 +19,7 @@ import Modalbtn from './component/Modalbtn';
 import Loading from './component/Loading';
 import * as Permissions from 'expo-permissions'; // Import Permissions module
 import { Darkgreen } from './component/Color';
+import { Primary, Secondary, Accent, Background, Surface, TextPrimary, TextSecondary } from './component/Color';
 import CircularProgressIndicator from 'react-native-circular-progress-indicator';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
@@ -792,15 +301,15 @@ newName=newName+ '.' + originalExt;
   
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: Background }]}> 
     <MenuProvider>
       <View style={styles.container}>
         <View style={{ marginTop: 50, flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity style={{ marginLeft: 7 }} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color="black" />
+            <Ionicons name="arrow-back" size={28} color={Primary} />
           </TouchableOpacity>
 
-          <Text style={{ marginLeft: 13, fontSize: 20, fontWeight: 'bold' }}>Notes</Text>
+          <Text style={{ marginLeft: 13, fontSize: 22, fontWeight: 'bold', color: Primary }}>Notes</Text>
         </View>
 
         {/* {uploadProgress > 0 && uploadProgress < 100 && (
@@ -821,17 +330,16 @@ newName=newName+ '.' + originalExt;
 onPress={pickDocument}/>
 
 
-        <View style={{ height: 2, width: '100%', backgroundColor: Darkgreen , marginTop: 9 }}></View>
+        <View style={{ height: 2, width: '100%', backgroundColor: Primary , marginTop: 9 }}></View>
 
         {userDocuments.length > 0 && (
           <FlatList
             data={userDocuments}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={{  borderWidth:2,borderColor:Darkgreen,height:60,width:'90%' ,marginTop:10,borderRadius:20,marginLeft:20}}>  
-                <View style={{ flexDirection: 'row', marginTop: 20 ,marginLeft:20,}}>
-                  <FontAwesome name="file-text" size={20} color="black" />
-
+              <View style={styles.noteCard}>  
+                <View style={styles.noteRow}>
+                  <FontAwesome name="file-text" size={20} color={Primary} />
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate('pdf', {
@@ -844,29 +352,20 @@ onPress={pickDocument}/>
                       })
                     }
                   >
-                    <Text numberOfLines={1} style={{marginLeft:20,paddingRight:90}}>{item.name}</Text>
+                    <Text numberOfLines={1} style={styles.noteName}>{item.name}</Text>
                   </TouchableOpacity>
-
-                  
-                               
                 </View>
-                <View style={{alignSelf:'flex-end',marginTop:-22,marginRight:6}}>
+                <View style={styles.noteMenu}>
                   <Menu >
                     <MenuTrigger>
-                      <Ionicons  name="ellipsis-vertical" size={24} color="black"  />
+                      <Ionicons  name="ellipsis-vertical" size={24} color={Accent}  />
                     </MenuTrigger>
                     <MenuOptions>
-                    <MenuOption onSelect={() => openModal(item.name, item.id)} text="Rename" />
-                    <MenuOption onSelect={() => deleteDocument(item.id)} text="Delete " />
-                     
-                      
+                      <MenuOption onSelect={() => openModal(item.name, item.id)} text="Rename" />
+                      <MenuOption onSelect={() => deleteDocument(item.id)} text="Delete " />
                     </MenuOptions>
-
                   </Menu>
-                  </View>
-                
-                  
-                
+                </View>
               </View>
             )}
           />
@@ -886,11 +385,18 @@ onPress={pickDocument}/>
               <TextInput
                 style={styles.input}
                 placeholder="Enter new document name"
+                placeholderTextColor={TextSecondary}
                 value={newDocumentName}
                 onChangeText={(text) => setNewDocumentName(text)}
               />
-              <Button title="Save" onPress={saveDocumentName} />
-              <Button title="Cancel" onPress={()=>setIsModalVisible(false)} />
+              <View style={styles.modalButtonRow}>
+                <TouchableOpacity style={styles.modalButton} onPress={saveDocumentName}>
+                  <Text style={styles.modalButtonText}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.modalButton, styles.modalButtonCancel]} onPress={()=>setIsModalVisible(false)}>
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -903,6 +409,7 @@ onPress={pickDocument}/>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Background,
   },
   modalContainer: {
     flex: 1,
@@ -911,18 +418,51 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
+    backgroundColor: Surface,
+    padding: 24,
+    borderRadius: 16,
+    elevation: 6,
     minWidth: 300,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 8,
   },
   input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: Accent,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    color: TextPrimary,
+    backgroundColor: Background,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  modalButtonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  modalButton: {
+    backgroundColor: Primary,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginHorizontal: 6,
+  },
+  modalButtonCancel: {
+    backgroundColor: Secondary,
+  },
+  modalButtonText: {
+    color: Surface,
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   uploadProgressContainer: {
     flex: 1,
@@ -930,6 +470,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-
+  noteCard: {
+    borderWidth: 1.5,
+    borderColor: Primary,
+    backgroundColor: Surface,
+    minHeight: 60,
+    width: '90%',
+    marginTop: 12,
+    borderRadius: 16,
+    marginLeft: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.10,
+    shadowRadius: 6,
+    elevation: 3,
+    justifyContent: 'center',
+  },
+  noteRow: {
+    flexDirection: 'row',
+    marginTop: 20,
+    marginLeft: 20,
+    alignItems: 'center',
+  },
+  noteName: {
+    marginLeft: 20,
+    paddingRight: 90,
+    color: TextPrimary,
+    fontSize: 15,
+    fontWeight: '500',
+  },
+  noteMenu: {
+    alignSelf: 'flex-end',
+    marginTop: -22,
+    marginRight: 6,
+  },
 });
 

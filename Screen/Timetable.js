@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
     backgroundColor: Primary,
     borderRadius: 8,
     alignItems: "center",
@@ -590,7 +590,7 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: Surface,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 13,
   },
   pageContainer: {
     flex: 1,

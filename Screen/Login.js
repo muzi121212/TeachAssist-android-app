@@ -62,38 +62,51 @@ const Login = (props) => {
       setLoading(true);
       const auth = getAuth();
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user.uid;
-    
-        setUserData(user);
-        await Services.setUserAuth(user);
-        console.log('on signin uid is', user);
-    
-        const token = await messaging().getToken();
-        const db = getFirestore();
-        const loginDataRef = doc(db, 'loginData', user);
-        
-        // Get the existing document data
-        const docSnap = await getDoc(loginDataRef);
-        if (docSnap.exists()) {
-          const existingData = docSnap.data();
-          const tokens = existingData.tokens || [];
-    
-          // Check if token already exists in array
-          if (!tokens.includes(token)) {
-            tokens.push(token);
-            await setDoc(loginDataRef, { tokens }, { merge: true }); // Merge with existing data
-          }
-        } else {
-          // Create a new document if it doesn't exist
-          await setDoc(loginDataRef, {
-            userId: user,
-            tokens: [token]
-          });
-        }
-    
-        props.navigation.navigate('Home');
-      } catch (error) {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+
+  // Check if the user's email is verified
+  if (!user.emailVerified) {
+    alert("Please verify your email before logging in.");
+    setLoading(false);
+    return;
+  }
+
+  // Set user data and auth
+  setUserData(user.uid);
+  await Services.setUserAuth(user.uid);
+  console.log('On sign-in, UID is:', user.uid);
+
+  // Get FCM token
+  const token = await messaging().getToken();
+
+  // Firestore reference
+  const db = getFirestore();
+  const loginDataRef = doc(db, 'loginData', user.uid);
+
+  // Check for existing login data
+  const docSnap = await getDoc(loginDataRef);
+  if (docSnap.exists()) {
+    const existingData = docSnap.data();
+    const tokens = existingData.tokens || [];
+
+    // Add token only if it doesn't already exist
+    if (!tokens.includes(token)) {
+      tokens.push(token);
+      await setDoc(loginDataRef, { tokens }, { merge: true });
+    }
+  } else {
+    // Create new login data
+    await setDoc(loginDataRef, {
+      userId: user.uid,
+      tokens: [token],
+    });
+  }
+
+  // Navigate to Home screen
+  props.navigation.navigate('Home');
+
+}catch (error) {
         const errorMessage = error.message;
         alert(errorMessage);
       } finally {
@@ -123,7 +136,7 @@ const Login = (props) => {
               source={require('../assets/logo.png')}
               style={styles.logo}
             />
-            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.title}>Welcome </Text>
             <Text style={styles.subtitle}>Sign in to continue</Text>
           </View>
 

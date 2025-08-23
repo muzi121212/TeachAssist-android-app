@@ -112,7 +112,7 @@ const StartScreen = ({ navigation }) => {
       <View style={styles.headerContainer}>
         <View style={styles.headerContent}>
           <View>
-            <Text style={styles.welcomeText}>Welcome back!</Text>
+            <Text style={styles.welcomeText}>Welcome!</Text>
             <Text style={styles.dateText}>
               {new Date().toLocaleDateString('en-US', { 
                 weekday: 'long',

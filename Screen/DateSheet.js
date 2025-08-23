@@ -502,7 +502,7 @@ const styles = StyleSheet.create({
   modalButton: {
     backgroundColor: Primary,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
@@ -511,7 +511,7 @@ const styles = StyleSheet.create({
   },
   modalButtonText: {
     color: Surface,
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
   },
   modalButtonCancel: {

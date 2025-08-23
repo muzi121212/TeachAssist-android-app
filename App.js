@@ -227,7 +227,8 @@ const DrawerStack = () => {
                   color: Surface,
                   marginBottom: 2,
                   letterSpacing: 0.2,
-                }}
+                    textTransform: 'uppercase', // makes all letters capital
+                }} 
               >
                 {data.displayName}
               </Text>
